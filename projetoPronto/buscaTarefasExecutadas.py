@@ -7,10 +7,11 @@ from time import sleep
 
 class buscadorTarefas:
 
-    def __init__(self, navegador: webdriver, timeOut: int, diaFinal:int):
+    def __init__(self, navegador: webdriver, timeOut: int, diaFinal:int, meses_atras:int):
         self.__navegador = navegador
         self.__timeOut = timeOut
-        self.diaFinal = diaFinal
+        self.__diaFinal = diaFinal
+        self.__meses_atras = meses_atras
 
     @property
     def navegador(self):
@@ -19,6 +20,14 @@ class buscadorTarefas:
     @property
     def timeOut(self):
         return self.__timeOut
+    
+    @property
+    def diaFinal(self):
+        return self.__diaFinal
+    
+    @property
+    def meses_atras(self):
+        return self.__meses_atras
 
     def entrarPagina(self,url):
         try:
@@ -53,7 +62,8 @@ class buscadorTarefas:
     def buscaDados(self):
         #clica no elemento para iniciar o preenchimento dos dados do mes/dia inicial da busca
         self.clicar('schedule_initialExecutionDate')
-        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
+        for x in range(self.meses_atras):
+            WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
         diainicio = self.navegador.find_elements(By.XPATH,"//table/tbody/tr/td")
         for x in diainicio:
             if (x.text)!=' ':
@@ -61,7 +71,8 @@ class buscadorTarefas:
                 break
         #clica no elemento para iniciar o preenchimento dos dados do mes/dia final da busca
         self.clicar('schedule_finalExecutionDate')
-        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
+        for x in range(self.meses_atras):
+            WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
         dias = self.navegador.find_elements(By.XPATH,"//table/tbody/tr/td")
         for x in dias:
             if (x.text)==f'{self.diaFinal}':

@@ -16,6 +16,9 @@ def tudo():
 
     dia = aplicacao.data_inicial
     lista = aplicacao.arquivo_selecionado
+    usuario = aplicacao.usuario
+    senha = aplicacao.senha
+    meses_atras = aplicacao.meses
     listaAmbientes=[]
     listaTarefas=[]
 
@@ -36,12 +39,13 @@ def tudo():
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
-    tarefas = bt(navegador,10,int(dia))
+    #cria o objeto que busca as tarefas e passa quantos meses atras e tambem o dia final do mês
+    tarefas = bt(navegador,10,int(dia),int(meses_atras))
 
     for x in listaAmbientes:
         tarefas.entrarPagina(f"https://{x}.umov.me/CenterWeb/")
-        if not tarefas.logar('master','SNNX917'):
-            print(f'Não foi possivel acessar o ambiente {x}, senha ou login incorretos')
+        if not tarefas.logar(f'{usuario}',f'{senha}'):
+            print(f'Não foi possivel acessar o ambiente {x}, senha, login ou nome do ambiente incorretos')
             continue
         tarefas.entraTarefas(f"https://{x}.umov.me/CenterWeb/")
 
