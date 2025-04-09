@@ -7,10 +7,11 @@ from time import sleep
 
 class buscadorTarefas:
 
-    def __init__(self, navegador: webdriver, timeOut: int, diaFinal:int):
+    def __init__(self, navegador: webdriver, timeOut: int, diaFinal:int, meses_atras:int):
         self.__navegador = navegador
         self.__timeOut = timeOut
-        self.diaFinal = diaFinal
+        self.__diaFinal = diaFinal
+        self.__meses_atras = meses_atras
 
     @property
     def navegador(self):
@@ -19,19 +20,27 @@ class buscadorTarefas:
     @property
     def timeOut(self):
         return self.__timeOut
+    
+    @property
+    def diaFinal(self):
+        return self.__diaFinal
+    
+    @property
+    def meses_atras(self):
+        return self.__meses_atras
 
     def entrarPagina(self,url):
         try:
             self.navegador.get(url)
         except TimeoutException:
-            print('Não foi possivel entrar na pagina')
+            print("Não foi possivel entrar na pagina")
         
 
     def logar(self,user,password):
         #Seta a senha e o login e clica em enviar
-        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.ID, 'username'))).send_keys(user)
-        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.ID, 'password'))).send_keys(password)
-        self.clicar('submit_button')
+        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.ID, "username"))).send_keys(user)
+        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.ID, "password"))).send_keys(password)
+        self.clicar("submit_button")
         sleep(1)
         try:
             self.navegador.find_element(By.XPATH, "/html/body/div[@id='layout_content']/div[@class='nm-wrapper']/div/div/ul/li/span")
@@ -43,49 +52,72 @@ class buscadorTarefas:
         #Tenta entrar nas tarefas 5 vezes, caso 
         for x in range(5):
             try:
-                self.navegador.get(url+'schedule/search')
+                sleep(1)
+                self.navegador.get(url+"schedule/search")
+                sleep(1)
                 break
             except TimeoutException:
                 self.navegador.refresh()
-                print(f'{x+1}° timeOut')
+                print(f'{x+1}° timeOut Entrando nas tarefas')
                 continue
 
     def buscaDados(self):
         #clica no elemento para iniciar o preenchimento dos dados do mes/dia inicial da busca
-        self.clicar('schedule_initialExecutionDate')
-        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
+        self.clicar("schedule_initialExecutionDate")
+        for x in range(self.meses_atras):
+            WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
         diainicio = self.navegador.find_elements(By.XPATH,"//table/tbody/tr/td")
         for x in diainicio:
-            if (x.text)!=' ':
+            if (x.text)!=" ":
                 x.click()
                 break
         #clica no elemento para iniciar o preenchimento dos dados do mes/dia final da busca
-        self.clicar('schedule_finalExecutionDate')
-        WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
+        self.clicar("schedule_finalExecutionDate")
+        for x in range(self.meses_atras):
+            WebDriverWait(self.navegador, self.timeOut).until(EC.element_to_be_clickable((By.XPATH,"//a[@title='<Anterior']"))).click()
         dias = self.navegador.find_elements(By.XPATH,"//table/tbody/tr/td")
         for x in dias:
             if (x.text)==f'{self.diaFinal}':
                 x.click()
                 break
-        self.clicar('scheduleList_doSearch')
+        self.clicar("scheduleList_doSearch")
 
     def contarRegistros(self):
         #Tenta clicar no total de registros, caso não seja possivel, recarrega a página, busca os dados novamente e clica 
         try:
-            self.clicar('forceCountRecordsLink')
+            self.clicar("forceCountRecordsLink")
         except ElementClickInterceptedException:
             self.navegador.refresh()
             self.buscaDados()
-            self.clicar('forceCountRecordsLink')
+            self.clicar("forceCountRecordsLink")
         except TimeoutException:
             self.navegador.refresh()
             self.buscaDados()
-            self.clicar('forceCountRecordsLink')
+            self.clicar("forceCountRecordsLink")
        
-        texto = str (self.navegador.find_element(By.XPATH,"//div[@style='float: right;']").text)
-        if texto=='Ver total de registros':
+        # texto = str (self.navegador.find_element(By.XPATH,"//div[@style='float: right;']").text)
+        try:
+            self.rolar_ate_fim_pagina()
+            texto = WebDriverWait(self.navegador, self.timeOut).until(
+                EC.presence_of_element_located((By.XPATH, "//div[@style='float: right;']"))
+            ).text
+            texto = str(texto)
+        except TimeoutException:
+            print("Elemento não encontrado dentro do tempo limite.")
+            texto = "0" 
+            
+        if texto=="Ver total de registros":
             return 0
         return int(texto[21:])
+    
+    def rolar_ate_fim_pagina(self):
+        try:
+            # Rola até o final da página
+            self.navegador.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            # Aguarda um tempo para garantir que o carregamento seja concluído
+            sleep(2)
+        except Exception as e:
+            print(f"Erro ao rolar até o final da página: {e}")
 
     def clicar(self,idd):
         #Tenta clicar 5 vezes caso de erro de TimeOut
@@ -95,11 +127,14 @@ class buscadorTarefas:
                 break
             except TimeoutException:
                 self.navegador.refresh()
-                print(f'{x+1}° timeOut')
+                print(f"{x+1}° timeOut Clicando")
                 continue
             except StaleElementReferenceException:
                 self.navegador.refresh()
-                print(f'{x+1}° timeOut')
+                print(f"{x+1}° Erro Clicando, {idd} não existe")
+                continue
+            except ElementClickInterceptedException:
+                sleep(1)
                 continue
             
 #EXEMPLO DE USO DO BUSCADOR
