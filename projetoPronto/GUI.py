@@ -96,6 +96,7 @@ class TelaPrincipal:
         # try:
         # Abrir a janela para selecionar a o arquivo
         self.arquivo_selecionado = filedialog.askopenfilename(title="Selecione o Arquivo")
+        # self.finalizar = self.confirmar_selecao
         
         # Verificar se um arquivo foi selecionado
         # if self.arquivo_selecionado:
@@ -119,13 +120,14 @@ class TelaPrincipal:
             
             # Imprimir os dados coletados
             print(f"Meses atras: {self.meses}")
-            print(f"Data Inicial: {self.data_inicial}")
+            print(f"Data Final: {self.data_inicial}")
             print(f"Arquivo Selecionado: {self.arquivo_selecionado}")
             print(f"Usuario: {self.usuario}")
             print(f"Senha: {self.senha}")
+            print('---------------------------------')
             self.master.destroy()
         except ValueError:
-            print("Por favor, insira um valor inteiro válido para Data Inicial.")
+            print("Por favor, insira um valor inteiro válido para Data Inicial ou meses anteriores.")
 
 #**************************************************************************************************************
 

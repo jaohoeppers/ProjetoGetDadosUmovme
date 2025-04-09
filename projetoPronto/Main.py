@@ -1,0 +1,3 @@
+import metodos
+
+metodos.tudo()
