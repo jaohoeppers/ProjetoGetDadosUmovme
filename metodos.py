@@ -52,11 +52,11 @@ def tudo():
     tarefas = bt(navegador,10,int(dia),int(meses_atras))
     
     try: 
-
         for x in listaAmbientes:
             tarefas.entrarPagina(f"https://{x}.umov.me/CenterWeb/")
             if not tarefas.logar(f'{usuario}',f'{senha}'):
                 print(f"Não foi possivel acessar o ambiente {x}, senha, login ou nome do ambiente incorretos")
+                listaTarefas.append([x,"Deu pau"])
                 continue
             sleep(1)
             tarefas.entraTarefas(f"https://{x}.umov.me/CenterWeb/")
@@ -70,13 +70,16 @@ def tudo():
             print(f"{x}: {valor}")
 
         navegador.close()
-    
-    finally:
+    except:
         navegador.close()
-
-    #Abre a janela de download e baixa o arquivo
-    janela_download = tk.Tk()
-    download(janela_download,listaTarefas)
-    janela_download.mainloop()
+        #Abre a janela de download e baixa o arquivo
+        janela_download = tk.Tk()
+        download(janela_download,listaTarefas)
+        janela_download.mainloop()
+    finally:
+        #Abre a janela de download e baixa o arquivo
+        janela_download = tk.Tk()
+        download(janela_download,listaTarefas)
+        janela_download.mainloop()
     
 # tudo()
