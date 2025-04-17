@@ -1,4 +1,4 @@
-('C:\\Users\\Evne\\OneDrive\\Documentos\\GitHub\\ProjetoGetDadosUmovme\\projetoPronto\\build\\Main\\PYZ-00.pyz',
+('C:\\Users\\Evne\\OneDrive\\Documentos\\GitHub\\ProjetoGetDadosUmovme\\projetoPronto\\build\\main\\PYZ-00.pyz',
  [('GUI',
    'C:\\Users\\Evne\\OneDrive\\Documentos\\GitHub\\ProjetoGetDadosUmovme\\projetoPronto\\GUI.py',
    'PYMODULE'),

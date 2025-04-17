@@ -70,8 +70,9 @@ def tudo():
             print(f"{x}: {valor}")
 
         navegador.close()
-    except:
+    except Exception as e:
         navegador.close()
+        listaTarefas.append([f"Error occurred: {str(e)}"])
         #Abre a janela de download e baixa o arquivo
         janela_download = tk.Tk()
         download(janela_download,listaTarefas)
