@@ -11,21 +11,21 @@ listaAmbientes=[]
 
 def tudo():
     # Criar a janela principal
-    # janela_principal = tk.Tk()
-    # aplicacao = telaInicio(janela_principal)
-    # janela_principal.mainloop()
+    janela_principal = tk.Tk()
+    aplicacao = telaInicio(janela_principal)
+    janela_principal.mainloop()
 
-    # dia = aplicacao.data_inicial
-    # lista = aplicacao.arquivo_selecionado
-    # usuario = aplicacao.usuario
-    # senha = aplicacao.senha
-    # meses_atras = aplicacao.meses
+    dia = aplicacao.data_inicial
+    lista = aplicacao.arquivo_selecionado
+    usuario = aplicacao.usuario
+    senha = aplicacao.senha
+    meses_atras = aplicacao.meses
 
-    dia = 28
-    lista = "C:\\Users\\Evne\\Documents\\ambientesCompleto.xlsx"
-    usuario = "master"
-    senha = "SNNX917"
-    meses_atras = 2
+    # dia = 28
+    # lista = "C:\\Users\\Evne\\Documents\\ambientesCompleto.xlsx"
+    # usuario = "master"
+    # senha = "SNNX917"
+    # meses_atras = 2
 
 
     listaTarefas=[]
@@ -33,6 +33,7 @@ def tudo():
     
     #Deixa a pagina invisivel
     # opcoes.add_argument('--haedless')
+    
     opcoes = Options()
     opcoes.add_argument("window-size=full")
     navegador = webdriver.Edge(options=opcoes)
