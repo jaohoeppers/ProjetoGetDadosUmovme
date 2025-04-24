@@ -18,6 +18,7 @@ class TelaPrincipal:
         self.usuario = None
         self.senha = None
         self.meses = None
+        self.aba = None
 
         #Variáveis para armazenar os dados dos widgets
         # self.meses_entry = None
@@ -61,35 +62,40 @@ class TelaPrincipal:
         # self.janela_selecao_datas.destroy()
 
         # Campo para inserir o nome do usuario
-        tk.Label(self.janela_selecao_usuario_senha, text="Digite o usuario").pack()
+        tk.Label(self.janela_selecao_usuario_senha, text="Digite o Usuario").pack()
         self.usuario_entry = tk.Entry(self.janela_selecao_usuario_senha)
         self.usuario_entry.pack()
 
         # Campo para inserir a senha
-        tk.Label(self.janela_selecao_usuario_senha, text="Digite a Senha dos ambientes").pack()
+        tk.Label(self.janela_selecao_usuario_senha, text="Digite a Senha dos Ambientes").pack()
         self.senha_entry = tk.Entry(self.janela_selecao_usuario_senha)
         self.senha_entry.pack()
         
+        tk.Label(self.janela_selecao_usuario_senha, text="Digite a Aba da Planilha").pack()
+        self.aba_entry = tk.Entry(self.janela_selecao_usuario_senha)
+        self.aba_entry.pack()
+        
         # Botão para confirmar
-        confirmar_button = tk.Button(self.janela_selecao_usuario_senha, text="Confirmar", command=self.abrir_selecao_arquivo)
+        # confirmar_button = tk.Button(self.janela_selecao_usuario_senha, text="Confirmar", command=self.abrir_selecao_arquivo)
+        confirmar_button = tk.Button(self.janela_selecao_usuario_senha, text="Confirmar", command=self.confirmar_selecao)
         confirmar_button.pack(pady=10)
         
         # Botão para cancelar
         cancelar_button = tk.Button(self.janela_selecao_usuario_senha, text="Cancelar", command=self.janela_selecao_usuario_senha.destroy)
         cancelar_button.pack()
     
-    def abrir_selecao_arquivo(self):
-        self.janela_selecao_arquivo = tk.Toplevel(self.master)
-        self.janela_selecao_arquivo.title("Arquivo")
+    # def abrir_selecao_arquivo(self):
+    #     self.janela_selecao_arquivo = tk.Toplevel(self.master)
+    #     self.janela_selecao_arquivo.title("Arquivo")
 
-        # self.janela_selecao_usuario_senha.destroy()
+    #     # self.janela_selecao_usuario_senha.destroy()
         
-        # Campo para inserir o nome do usuario
-        self.arquivo =tk.Label(self.janela_selecao_arquivo, text="Arquivo").pack()
+    #     # Campo para inserir o nome do usuario
+    #     self.arquivo =tk.Label(self.janela_selecao_arquivo, text="Arquivo").pack()
 
-        self.escolher_button = tk.Button(self.janela_selecao_arquivo, text="Escolher Arquivo", command=self.selecionar_arquivo).pack(pady=10)
+    #     self.escolher_button = tk.Button(self.janela_selecao_arquivo, text="Escolher Arquivo", command=self.selecionar_arquivo).pack(pady=10)
 
-        self.Finalizar = tk.Button(self.janela_selecao_arquivo, text="INICIAR", command=self.confirmar_selecao,bg='black',fg='white').pack(pady=10)
+    #     self.Finalizar = tk.Button(self.janela_selecao_arquivo, text="INICIAR", command=self.confirmar_selecao,bg='black',fg='white').pack(pady=10)
 
     def selecionar_arquivo(self):
 
@@ -113,17 +119,18 @@ class TelaPrincipal:
             self.data_inicial = int(self.data_inicial_entry.get())
             self.meses = int(self.meses_entry.get())
             self.usuario = (self.usuario_entry.get())
-            self.senha = (self.senha_entry.get())            
+            self.senha = (self.senha_entry.get())   
+            self.aba = (self.aba_entry.get())           
             
             # Fechar a janela de seleção
-            self.janela_selecao_arquivo.destroy()
+            self.janela_selecao_usuario_senha.destroy()
             
             # Imprimir os dados coletados
             print(f"Meses atras: {self.meses}")
             print(f"Data Final: {self.data_inicial}")
-            print(f"Arquivo Selecionado: {self.arquivo_selecionado}")
             print(f"Usuario: {self.usuario}")
             print(f"Senha: {self.senha}")
+            print(f"Aba Planilha: {self.senha}")
             print('---------------------------------')
             self.master.destroy()
         except ValueError:
