@@ -7,8 +7,6 @@ __pycache__/
 ApiGoogle
 .venv
 build
-
-build
 my-app/node_modules
 /.pnp
 .pnp.js
