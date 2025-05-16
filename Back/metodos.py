@@ -1,7 +1,7 @@
-from buscaTarefasExecutadas import buscadorTarefas as bt
+from Back.buscaTarefasExecutadas import buscadorTarefas as bt
 from GUI import TelaPrincipal as telaInicio
 from GUI import DownloadManager as download
-from BuscarAmbientes import BuscarAmbientes
+from Back.BuscarAmbientes import BuscarAmbientes
 import tkinter as tk
 import openpyxl
 from selenium import webdriver
@@ -9,12 +9,15 @@ from selenium.webdriver.edge.options import Options
 from time import sleep
 from datetime import datetime
 
+
 def tudo():
     # Criar a janela principal
-    janela_principal = tk.Tk()
-    aplicacao = telaInicio(janela_principal)
-    janela_principal.mainloop()
-
+    # janela_principal = tk.Tk()
+    # aplicacao = telaInicio(janela_principal)
+    # janela_principal.mainloop()
+    
+    
+    #################### PRECISA SUBSTITUIR POR UM GET DE JSON
     dia = aplicacao.data_inicial
     # lista = aplicacao.arquivo_selecionado
     usuario = aplicacao.usuario

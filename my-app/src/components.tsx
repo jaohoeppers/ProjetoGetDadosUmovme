@@ -10,7 +10,8 @@ const StyledInterface: React.FC<Props> = ({ teste }) => {
     mesesAnteriores: '',
     ultimoDia: '',
     usuario: '',
-    senha: ''
+    senha: '',
+    aba: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +64,16 @@ const StyledInterface: React.FC<Props> = ({ teste }) => {
             type="password"
             variant="outlined"
             value={formData.senha}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+          <TextField
+            label="Aba da planilha que os ambientes estão"
+            name="abaPlanilha"
+            type="text"
+            variant="outlined"
+            value={formData.aba}
             onChange={handleChange}
             fullWidth
             required

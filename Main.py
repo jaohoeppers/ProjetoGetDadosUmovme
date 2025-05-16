@@ -1,3 +1,6 @@
-import metodos
+import Back.metodos as metodos
+import subprocess
 
-metodos.tudo()
+# metodos.tudo()
+
+subprocess.Popen(['cmd', '/c', 'iniciarTela.cmd'], shell=True)

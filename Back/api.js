@@ -23,6 +23,8 @@ app.post('/save-data', (req, res) => {
             fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
             console.log('File created and data written successfully.');
             res.send('File created and data written successfully.');
+
+            ////CHAMAR O CMD PARA INICIAR O BUSCADOR
         }
 
     }
